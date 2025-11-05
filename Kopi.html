@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Azzaya Kafe - Produk</title>
+  <style>
+    /* Reset dan dasar */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      background-color: #fdf6f0;
+      color: #3e2f22;
+      transition: background-color 0.4s, color 0.4s;
+      
+    }
+
+    /* Dark Mode */
+    body.dark {
+      background-color: #1c1816;
+      color: #f3e9dc;
+    }
+
+    /* Header */
+    .navbar {
+      width: 100%;
+      height: 80px;
+      background: #3b2f2f;
+      position: sticky;
+      top: 0;
+      left: 0;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+
+    .judul {
+      color: #ffb347;
+      font-size: 28px;
+      font-weight: bold;
+      font-family: 'Georgia', serif;
+      letter-spacing: 1px;
+    }
+
+    .menu ul {
+      display: flex;
+      list-style: none;
+    }
+
+    .menu ul li {
+      margin-left: 30px;
+    }
+
+    .menu ul li a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .menu ul li a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      width: 0;
+      height: 2px;
+      background: #ffb347;
+      transition: width 0.3s;
+    }
+
+    .menu ul li a:hover::after {
+      width: 100%;
+    }
+
+    .menu ul li a:hover {
+      color: #ffb347;
+    }
+
+    /* Tombol Mode */
+    .toggle-mode {
+      background: #ffb347;
+      border: none;
+      color: #fff;
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .toggle-mode:hover {
+      background: #d17a00;
+    }
+
+    /* Banner */
+    .main {
+      background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)),
+        url('smiling-asian-barista-girl-makes-cappuccino-with-coffee-machine-stands-counter-cafe.jpg');
+      background-position: center;
+      background-size: cover;
+      height: 70vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      color: white;
+    }
+
+    .main h1 {
+      font-size: 48px;
+      letter-spacing: 1px;
+    }
+
+    /* Katalog */
+    .catalog {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 25px;
+      padding: 40px 20px;
+    }
+
+    .product-card {
+      width: 18%;
+      background-color: #fff;
+      border: 3px solid #e8e3da;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+    }
+
+    body.dark .product-card {
+      background-color: #2b2320;
+      border-color: #3d302b;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    .product-image img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .product-info h4 {
+      margin: 10px 0;
+      font-size: 18px;
+      color: #3e2f22;
+    }
+
+    body.dark .product-info h4 {
+      color: #f3e9dc;
+    }
+
+    .product-info p {
+      color: #555;
+      margin: 5px 0 15px;
+      font-size: 16px;
+    }
+
+    body.dark .product-info p {
+      color: #e0d3c3;
+    }
+
+    .product-info button {
+      background-color: #ffb347;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease, transform 0.2s;
+    }
+
+    .product-info button:hover {
+      background-color: #d17a00;
+      transform: scale(1.05);
+    }
+
+    .best {
+      position: absolute;
+      top: 0;
+      right: 0;
+      border-style: solid;
+      border-width: 0 45px 45px 0;
+      border-color: transparent #ff4500 transparent transparent;
+      z-index: 1;
+    }
+
+    .best::after {
+      content: "Best Seller";
+      position: absolute;
+      top: 5px;
+      right: -38px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: bold;
+      transform: rotate(45deg);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0, 0, 0, 0.6);
+    }
+
+    .modal-content {
+      background-color: #3b2f2f;
+      color: #fff;
+      margin: 6% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 600px;
+      animation: fadeIn 0.4s ease;
+      transform: scale(0.7);
+      transition: transform 0.4s ease-out;
+    }
+
+    .modal-content.show {
+      transform: scale(1);
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover {
+      color: #ffb347;
+      cursor: pointer;
+    }
+
+    .modal-content img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .modal-content button {
+      background-color: #ffb347;
+      border: none;
+      padding: 10px 20px;
+      color: #fff;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .modal-content button:hover {
+      background-color: #d17a00;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Footer */
+    footer {
+      background: #3b2f2f;
+      color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    footer h3 {
+      color: #ffb347;
+      margin-bottom: 10px;
+    }
+
+    footer p {
+      font-size: 14px;
+    }
+
+    .footer-bottom {
+      border-top: 1px solid #5e4c3a;
+      margin-top: 15px;
+      padding-top: 10px;
+      font-size: 13px;
+      color: #d9c6b0;
+    }
+
+    /* Responsif */
+    @media (max-width: 768px) {
+      .product-card {
+        width: 80%;
+      }
+      .menu ul {
+        flex-direction: column;
+        background: #3b2f2f;
+        padding: 10px 0;
+      }
+      .menu ul li {
+        margin: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="judul">☕ Azzaya Kafe</div>
+    <div class="menu">
+      <ul>
+        <li><a href="1home.html">Home</a></li>
+        <li><a href="2tentang.html">Tentang</a></li>
+        <li><a href="3produk.html">Produk</a></li>
+        <li><a href="4buku.html">Buku Tamu</a></li>
+      </ul>
+    </div>
+    <button class="toggle-mode" onclick="toggleMode()">🌙 Mode</button>
+  </div>
+
+  <div class="main">
+    <h1>Produk Kopi Pilihan Kami</h1>
+    <p>Setiap cangkir penuh cita rasa dan kehangatan.</p>
+  </div>
+
+  <div class="catalog">
+    <div class="product-card">
+      <div class="best"></div>
+      <div class="product-image"><img src="kopsuren.jpeg" alt="Kopi Gula Aren"></div>
+      <div class="product-info">
+        <h4>Kopi Susu Gula Aren</h4>
+        <p>Rp20.000</p>
+        <button onclick="openModal('modal1')">Lihat Detail</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image"><img src="americano.jpeg" alt="Americano"></div>
+      <div class="product-info">
+        <h4>Americano</h4>
+        <p>Rp25.000</p>
+        <button onclick="openModal('modal2')">Lihat Detail</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image"><img src="amerikano.jpeg" alt="V60"></div>
+      <div class="product-info">
+        <h4>V60</h4>
+        <p>Rp30.000</p>
+        <button onclick="openModal('modal3')">Lihat Detail</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image"><img src="latte.jpeg" alt="Latte"></div>
+      <div class="product-info">
+        <h4>Latte</h4>
+        <p>Rp22.000</p>
+        <button onclick="openModal('modal4')">Lihat Detail</button>
+      </div>
+    </div>
+
+    <div class="product-card">
+      <div class="product-image"><img src="espresso.jpeg" alt="Espresso"></div>
+      <div class="product-info">
+        <h4>Espresso</h4>
+        <p>Rp18.000</p>
+        <button onclick="openModal('modal5')">Lihat Detail</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <div id="modal1" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('modal1')">&times;</span>
+      <img src="kopsuren.jpeg" alt="Kopi Gula Aren">
+      <h2>Kopi Susu Gula Aren</h2>
+      <p>Perpaduan espresso dengan susu segar dan gula aren alami. Rasa manis-karamel yang lembut, bisa disajikan panas atau dingin.</p>
+      <p>Harga: Rp20.000</p>
+      <button onclick="location.href='5lamanlogin.html'">Beli Sekarang</button>
+    </div>
+  </div>
+
+  <div id="modal2" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('modal2')">&times;</span>
+      <img src="amerikanooo.jpeg" alt="Americano">
+      <h2>Americano</h2>
+      <p>Espresso dengan tambahan air panas menghasilkan rasa yang ringan namun tetap kaya aroma. Cocok untuk penikmat kopi hitam sejati.</p>
+      <p>Harga: Rp25.000</p>
+      <button onclick="location.href='5lamanlogin.html'">Beli Sekarang</button>
+    </div>
+  </div>
+
+  <div id="modal3" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('modal3')">&times;</span>
+      <img src="amerikano.jpeg" alt="V60">
+      <h2>V60</h2>
+      <p>Diseduh manual menggunakan teknik pour-over menghasilkan rasa yang bersih dan kompleks. Cocok untuk pecinta kopi dengan aftertaste lembut.</p>
+      <p>Harga: Rp30.000</p>
+      <button onclick="location.href='5lamanlogin.html'">Beli Sekarang</button>
+    </div>
+  </div>
+
+  <div id="modal4" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('modal4')">&times;</span>
+      <img src="latte.jpeg" alt="Latte">
+      <h2>Latte</h2>
+      <p>Kopi lembut dengan campuran susu kukus dan busa tipis di atasnya. Rasanya creamy dan cocok untuk dinikmati kapan saja.</p>
+      <p>Harga: Rp22.000</p>
+      <button onclick="location.href='5lamanlogin.html'">Beli Sekarang</button>
+    </div>
+  </div>
+
+  <div id="modal5" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('modal5')">&times;</span>
+      <img src="espresso.jpeg" alt="Espresso">
+      <h2>Espresso</h2>
+      <p>Minuman kopi murni dengan ekstraksi kuat menghasilkan rasa pekat dan aroma tajam. Cocok untuk kamu yang suka energi cepat!</p>
+      <p>Harga: Rp18.000</p>
+      <button onclick="location.href='5lamanlogin.html'">Beli Sekarang</button>
+    </div>
+  </div>
+
+  <footer>
+    <h3>Azzaya Kafe</h3>
+    <p>Menemani hari-harimu dengan kopi terbaik dari Nusantara.</p>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Azzaya Kafe. Semua Hak Dilindungi.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mode Toggle
+    function toggleMode() {
+      document.body.classList.toggle("dark");
+    }
+
+    // Modal
+    function openModal(id) {
+      const modal = document.getElementById(id);
+      modal.style.display = "block";
+      setTimeout(() => modal.querySelector(".modal-content").classList.add("show"), 10);
+    }
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      modal.querySelector(".modal-content").classList.remove("show");
+      setTimeout(() => (modal.style.display = "none"), 300);
+    }
+    window.onclick = function (e) {
+      if (e.target.classList.contains("modal")) {
+        closeModal(e.target.id);
+      }
+    };
+  </script>
+</body>
+</html>
